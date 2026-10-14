@@ -1,12 +1,1159 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Test page</title>
-	</head>
-	<body>
-		<h2>Это мой не первый сайт на github pages</h2>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg8KVBOv2mL2fhd68zKt_DHZOmzWMHywdFLnCWPUlD5mbZO3odRK-rBlk6&s=10" />
-	</body>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberArena | Компьютерный клуб</title>
+    <style>
+        /* ===== БАЗОВЫЕ СТИЛИ ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0a1a;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ===== АНИМИРОВАННЫЙ ФОН ===== */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 200, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 200, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 150, 255, 0.15), transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 150, 0.1), transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 200, 0.05), transparent 70%);
+            z-index: -1;
+            animation: glowPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* ===== НАВИГАЦИЯ ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 200, 255, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 10px 40px;
+            background: rgba(10, 10, 26, 0.95);
+            box-shadow: 0 5px 30px rgba(0, 200, 255, 0.15);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00c8ff, #a855f7, #ff0096);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #b0b0d0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00c8ff, #a855f7);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #00c8ff;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* ===== СТРАНИЦЫ ===== */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 120px 40px 60px;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== ГЛАВНАЯ ===== */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 80vh;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #00c8ff, #a855f7, #ff0096, #00c8ff);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #8888aa;
+            max-width: 600px;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .btn {
+            padding: 14px 36px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00c8ff, #a855f7);
+            color: #fff;
+            box-shadow: 0 5px 25px rgba(0, 200, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(0, 200, 255, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #00c8ff;
+            border: 2px solid #00c8ff;
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 200, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 200, 255, 0.3);
+        }
+
+        /* Плавающие иконки */
+        .floating-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .float-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        .float-icon:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .float-icon:nth-child(2) { top: 60%; left: 85%; animation-delay: 1s; }
+        .float-icon:nth-child(3) { top: 30%; left: 75%; animation-delay: 2s; }
+        .float-icon:nth-child(4) { top: 75%; left: 20%; animation-delay: 3s; }
+        .float-icon:nth-child(5) { top: 15%; left: 50%; animation-delay: 4s; }
+        .float-icon:nth-child(6) { top: 80%; left: 60%; animation-delay: 5s; }
+
+        /* Статистика */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 60px auto 0;
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 200, 255, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 200, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 200, 255, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00c8ff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #8888aa;
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+
+        /* ===== ОБЩИЕ СТИЛИ ДЛЯ СЕКЦИЙ ===== */
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #00c8ff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #8888aa;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+
+        /* ===== УСЛУГИ / ТАРИФЫ ===== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 200, 255, 0.15);
+            border-radius: 20px;
+            padding: 35px 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00c8ff, #a855f7, #ff0096);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 200, 255, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 200, 255, 0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: #e0e0ff;
+        }
+
+        .card p {
+            color: #8888aa;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .card .price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #00c8ff;
+        }
+
+        .card .price span {
+            font-size: 0.9rem;
+            color: #8888aa;
+            font-weight: 400;
+        }
+
+        .card-featured {
+            border-color: rgba(168, 85, 247, 0.5);
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        .badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00c8ff, #a855f7);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .card ul li {
+            padding: 8px 0;
+            color: #b0b0d0;
+            font-size: 0.9rem;
+        }
+
+        .card ul li::before {
+            content: '✓';
+            color: #00c8ff;
+            margin-right: 10px;
+            font-weight: 700;
+        }
+
+        /* ===== О КЛУБЕ ===== */
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00c8ff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-text p {
+            color: #b0b0d0;
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            display: grid;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 200, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .about-feature:hover {
+            border-color: rgba(0, 200, 255, 0.4);
+            transform: translateX(10px);
+        }
+
+        .about-feature .icon {
+            font-size: 1.5rem;
+        }
+
+        .about-visual {
+            position: relative;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(0, 200, 255, 0.1), rgba(168, 85, 247, 0.1));
+            border: 1px solid rgba(0, 200, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-visual .big-icon {
+            font-size: 8rem;
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(0, 200, 255, 0.5));
+        }
+
+        /* ===== ГАЛЕРЕЯ ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            height: 220px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid rgba(0, 200, 255, 0.15);
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .gallery-item:nth-child(1) { background: linear-gradient(135deg, rgba(0,200,255,0.2), rgba(10,10,26,0.9)); }
+        .gallery-item:nth-child(2) { background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(10,10,26,0.9)); }
+        .gallery-item:nth-child(3) { background: linear-gradient(135deg, rgba(255,0,150,0.2), rgba(10,10,26,0.9)); }
+        .gallery-item:nth-child(4) { background: linear-gradient(135deg, rgba(0,255,200,0.2), rgba(10,10,26,0.9)); }
+        .gallery-item:nth-child(5) { background: linear-gradient(135deg, rgba(0,200,255,0.15), rgba(10,10,26,0.9)); }
+        .gallery-item:nth-child(6) { background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(10,10,26,0.9)); }
+
+        .gallery-item::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            border-color: rgba(0, 200, 255, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 200, 255, 0.2);
+        }
+
+        /* ===== КОНТАКТЫ ===== */
+        .contact-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 200, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            border-color: rgba(0, 200, 255, 0.4);
+            transform: translateX(8px);
+        }
+
+        .contact-item .icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item h4 {
+            color: #00c8ff;
+            margin-bottom: 5px;
+        }
+
+        .contact-item p {
+            color: #b0b0d0;
+            font-size: 0.95rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 200, 255, 0.2);
+            border-radius: 12px;
+            color: #e0e0ff;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: #00c8ff;
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.2);
+            background: rgba(0, 200, 255, 0.05);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-form .btn {
+            align-self: flex-start;
+        }
+
+        /* ===== ФУТЕР ===== */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #555577;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 200, 255, 0.1);
+            margin-top: 60px;
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 768px) {
+            nav {
+                padding: 12px 20px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            nav.scrolled {
+                padding: 8px 20px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+
+            .page {
+                padding: 150px 20px 40px;
+            }
+
+            .about-content,
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-visual {
+                height: 250px;
+            }
+
+            .about-visual .big-icon {
+                font-size: 5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stat-card {
+                padding: 20px 15px;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== СКРОЛЛБАР ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00c8ff, #a855f7);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #00e0ff, #c084fc);
+        }
+
+        /* ===== ПЛАВНОЕ ПОЯВЛЕНИЕ ЭЛЕМЕНТОВ ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Задержки для каскадного появления */
+        .reveal:nth-child(1) { transition-delay: 0.1s; }
+        .reveal:nth-child(2) { transition-delay: 0.2s; }
+        .reveal:nth-child(3) { transition-delay: 0.3s; }
+        .reveal:nth-child(4) { transition-delay: 0.4s; }
+        .reveal:nth-child(5) { transition-delay: 0.5s; }
+        .reveal:nth-child(6) { transition-delay: 0.6s; }
+    </style>
+</head>
+<body>
+
+    <!-- Фоновые слои -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <!-- Навигация -->
+    <nav id="navbar">
+        <div class="logo" onclick="navigateTo('home')">⚡ CYBERARENA</div>
+        <ul class="nav-links">
+            <li><a href="#" data-page="home" class="active" onclick="navigateTo('home'); return false;">Главная</a></li>
+            <li><a href="#" data-page="services" onclick="navigateTo('services'); return false;">Услуги</a></li>
+            <li><a href="#" data-page="about" onclick="navigateTo('about'); return false;">О клубе</a></li>
+            <li><a href="#" data-page="gallery" onclick="navigateTo('gallery'); return false;">Галерея</a></li>
+            <li><a href="#" data-page="contacts" onclick="navigateTo('contacts'); return false;">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <!-- ===== ГЛАВНАЯ ===== -->
+    <section class="page active" id="home">
+        <div class="hero">
+            <div class="floating-icons">
+                <span class="float-icon">🎮</span>
+                <span class="float-icon">🖥️</span>
+                <span class="float-icon">⚡</span>
+                <span class="float-icon">🏆</span>
+                <span class="float-icon">🎯</span>
+                <span class="float-icon">🔥</span>
+            </div>
+            <h1>Добро пожаловать<br>в CYBERARENA</h1>
+            <p>Лучший компьютерный клуб города. Мощные ПК, топовые игры, уютная атмосфера и регулярные турниры.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary" onclick="navigateTo('services'); return false;">Наши тарифы</a>
+                <a href="#" class="btn btn-outline" onclick="navigateTo('contacts'); return false;">Забронировать</a>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card reveal">
+                <div class="stat-number" data-target="50">0</div>
+                <div class="stat-label">Игровых ПК</div>
+            </div>
+            <div class="stat-card reveal">
+                <div class="stat-number" data-target="1200">0</div>
+                <div class="stat-label">Довольных клиентов</div>
+            </div>
+            <div class="stat-card reveal">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">Работаем 24/7</div>
+            </div>
+            <div class="stat-card reveal">
+                <div class="stat-number" data-target="30">0</div>
+                <div class="stat-label">Турниров в год</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== УСЛУГИ ===== -->
+    <section class="page" id="services">
+        <h2 class="section-title">Наши тарифы</h2>
+        <p class="section-subtitle">Выбери идеальный вариант для себя</p>
+
+        <div class="cards-grid">
+            <div class="card reveal">
+                <div class="card-icon">🕐</div>
+                <h3>Стандарт</h3>
+                <p>Отличный выбор для casual-игроков</p>
+                <div class="price">150 ₽ <span>/ час</span></div>
+                <ul>
+                    <li>Мощный игровой ПК</li>
+                    <li>Монитор 144 Гц</li>
+                    <li>Игровая периферия</li>
+                    <li>Доступ к 50+ играм</li>
+                </ul>
+                <a href="#" class="btn btn-outline" onclick="navigateTo('contacts'); return false;">Выбрать</a>
+            </div>
+
+            <div class="card card-featured reveal">
+                <span class="badge">Хит</span>
+                <div class="card-icon">🔥</div>
+                <h3>Премиум</h3>
+                <p>Для тех, кто ценит максимум</p>
+                <div class="price">250 ₽ <span>/ час</span></div>
+                <ul>
+                    <li>Топовый ПК RTX 4080</li>
+                    <li>Монитор 240 Гц</li>
+                    <li>Механическая клавиатура</li>
+                    <li>VIP-зона</li>
+                    <li>Бесплатный напиток</li>
+                </ul>
+                <a href="#" class="btn btn-primary" onclick="navigateTo('contacts'); return false;">Выбрать</a>
+            </div>
+
+            <div class="card reveal">
+                <div class="card-icon">🌙</div>
+                <h3>Ночной</h3>
+                <p>Ночные игровые марафоны</p>
+                <div class="price">600 ₽ <span>/ ночь</span></div>
+                <ul>
+                    <li>С 22:00 до 08:00</li>
+                    <li>Любое место в клубе</li>
+                    <li>Кофе и снеки</li>
+                    <li>Безлимитный интернет</li>
+                </ul>
+                <a href="#" class="btn btn-outline" onclick="navigateTo('contacts'); return false;">Выбрать</a>
+            </div>
+
+            <div class="card reveal">
+                <div class="card-icon">🏆</div>
+                <h3>Турнирный</h3>
+                <p>Для киберспортсменов</p>
+                <div class="price">от 500 ₽ <span>/ турнир</span></div>
+                <ul>
+                    <li>Бронь на турнир</li>
+                    <li>Профессиональная зона</li>
+                    <li>Судейство</li>
+                    <li>Призовой фонд</li>
+                </ul>
+                <a href="#" class="btn btn-outline" onclick="navigateTo('contacts'); return false;">Выбрать</a>
+            </div>
+
+            <div class="card reveal">
+                <div class="card-icon">👥</div>
+                <h3>Командный</h3>
+                <p>Для игры в компании</p>
+                <div class="price">1200 ₽ <span>/ 5 ПК / час</span></div>
+                <ul>
+                    <li>5 игровых мест рядом</li>
+                    <li>Discord-зона</li>
+                    <li>Общий стол</li>
+                    <li>Скидка 10% на напитки</li>
+                </ul>
+                <a href="#" class="btn btn-outline" onclick="navigateTo('contacts'); return false;">Выбрать</a>
+            </div>
+
+            <div class="card reveal">
+                <div class="card-icon">🎓</div>
+                <h3>Студенческий</h3>
+                <p>Скидки для студентов</p>
+                <div class="price">100 ₽ <span>/ час</span></div>
+                <ul>
+                    <li>При предъявлении студенческого</li>
+                    <li>Будни до 17:00</li>
+                    <li>Стандартное место</li>
+                    <li>Доступ ко всем играм</li>
+                </ul>
+                <a href="#" class="btn btn-outline" onclick="navigateTo('contacts'); return false;">Выбрать</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== О КЛУБЕ ===== -->
+    <section class="page" id="about">
+        <h2 class="section-title">О нашем клубе</h2>
+        <p class="section-subtitle">CYBERARENA — это больше, чем просто компьютерный клуб</p>
+
+        <div class="about-content">
+            <div class="about-text reveal">
+                <h2>Место силы геймеров</h2>
+                <p>Мы открылись в 2020 году с простой целью — создать идеальное пространство для киберспорта и общения. За это время мы стали домом для сотен геймеров.</p>
+                <p>Наш клуб оснащён только топовым оборудованием: видеокарты RTX 40-й серии, мониторы с высокой частотой обновления, профессиональная периферия от ведущих брендов.</p>
+                <div class="about-features">
+                    <div class="about-feature">
+                        <span class="icon">⚡</span>
+                        <span>Интернет 1 Гбит/с с минимальным пингом</span>
+                    </div>
+                    <div class="about-feature">
+                        <span class="icon">🖥️</span>
+                        <span>50 игровых мест в трёх зонах</span>
+                    </div>
+                    <div class="about-feature">
+                        <span class="icon">🍕</span>
+                        <span>Кафе с закусками и напитками</span>
+                    </div>
+                    <div class="about-feature">
+                        <span class="icon">🏆</span>
+                        <span>Еженедельные турниры с призами</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-visual reveal">
+                <div class="big-icon">🎮</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ГАЛЕРЕЯ ===== -->
+    <section class="page" id="gallery">
+        <h2 class="section-title">Галерея клуба</h2>
+        <p class="section-subtitle">Загляни внутрь CYBERARENA</p>
+
+        <div class="gallery-grid">
+            <div class="gallery-item reveal" data-label="Игровая зона Standard">🖥️</div>
+            <div class="gallery-item reveal" data-label="VIP-зона Premium">👑</div>
+            <div class="gallery-item reveal" data-label="Турнирная арена">🏆</div>
+            <div class="gallery-item reveal" data-label="Кафе и лаунж">☕</div>
+            <div class="gallery-item reveal" data-label="Консольная зона">🎮</div>
+            <div class="gallery-item reveal" data-label="Зона отдыха">🛋️</div>
+        </div>
+    </section>
+
+    <!-- ===== КОНТАКТЫ ===== -->
+    <section class="page" id="contacts">
+        <h2 class="section-title">Контакты</h2>
+        <p class="section-subtitle">Свяжись с нами или забронируй место</p>
+
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <div class="contact-item reveal">
+                    <span class="icon">📍</span>
+                    <div>
+                        <h4>Адрес</h4>
+                        <p>г. Москва, ул. Киберспортивная, 42</p>
+                    </div>
+                </div>
+                <div class="contact-item reveal">
+                    <span class="icon">📞</span>
+                    <div>
+                        <h4>Телефон</h4>
+                        <p>+7 (999) 123-45-67</p>
+                    </div>
+                </div>
+                <div class="contact-item reveal">
+                    <span class="icon">✉️</span>
+                    <div>
+                        <h4>Email</h4>
+                        <p>info@cyberarena.ru</p>
+                    </div>
+                </div>
+                <div class="contact-item reveal">
+                    <span class="icon">🕐</span>
+                    <div>
+                        <h4>Режим работы</h4>
+                        <p>Круглосуточно, 24/7</p>
+                    </div>
+                </div>
+            </div>
+
+            <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+                <input type="text" placeholder="Ваше имя" required>
+                <input type="tel" placeholder="Телефон" required>
+                <input type="email" placeholder="Email">
+                <textarea placeholder="Сообщение или пожелания..."></textarea>
+                <button type="submit" class="btn btn-primary">Отправить заявку</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 CYBERARENA. Все права защищены. Сделано с ⚡ для геймеров.</p>
+    </footer>
+
+    <script>
+        /* ===== НАВИГАЦИЯ МЕЖДУ СТРАНИЦАМИ ===== */
+        function navigateTo(pageId) {
+            // Скрываем все страницы
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Показываем нужную
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // Обновляем активную ссылку
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Скролл наверх
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Перезапускаем анимации появления
+            setTimeout(() => {
+                initReveal();
+            }, 100);
+        }
+
+        /* ===== ЭФФЕКТ ПРИ СКРОЛЛЕ ===== */
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        /* ===== АНИМАЦИЯ ПОЯВЛЕНИЯ ЭЛЕМЕНТОВ ===== */
+        function initReveal() {
+            const reveals = document.querySelectorAll('.page.active .reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            reveals.forEach(el => {
+                el.classList.remove('visible');
+                observer.observe(el);
+            });
+        }
+
+        /* ===== АНИМАЦИЯ СЧЁТЧИКОВ ===== */
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = parseInt(counter.dataset.target);
+                const duration = 2000;
+                const start = performance.now();
+
+                function update(currentTime) {
+                    const elapsed = currentTime - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    // Ease out
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    counter.textContent = Math.floor(eased * target);
+
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        counter.textContent = target + '+';
+                    }
+                }
+
+                requestAnimationFrame(update);
+            });
+        }
+
+        /* ===== ОБРАБОТКА ФОРМЫ ===== */
+        function handleSubmit(event) {
+            event.preventDefault();
+            const btn = event.target.querySelector('button');
+            const originalText = btn.textContent;
+
+            btn.textContent = '✓ Отправлено!';
+            btn.style.background = 'linear-gradient(135deg, #00ff88, #00c8ff)';
+
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+                event.target.reset();
+            }, 2500);
+        }
+
+        /* ===== ПЛАВНЫЙ СКРОЛЛ ПО ЯКОРЯМ ===== */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && !this.dataset.page) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        /* ===== ИНИЦИАЛИЗАЦИЯ ===== */
+        document.addEventListener('DOMContentLoaded', () => {
+            initReveal();
+            animateCounters();
+
+            // Параллакс для плавающих иконок
+            document.addEventListener('mousemove', (e) => {
+                const icons = document.querySelectorAll('.float-icon');
+                const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+                icons.forEach((icon, index) => {
+                    const speed = (index + 1) * 0.5;
+                    icon.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+                });
+            });
+        });
+
+        /* ===== ПРИ ПЕРЕКЛЮЧЕНИИ СТРАНИЦЫ — ПЕРЕЗАПУСК СЧЁТЧИКОВ ===== */
+        const originalNavigate = navigateTo;
+        navigateTo = function(pageId) {
+            originalNavigate(pageId);
+            if (pageId === 'home') {
+                setTimeout(animateCounters, 300);
+            }
+        };
+    </script>
+</body>
 </html>
